@@ -1,6 +1,6 @@
 {
   "name": "react-on-click-out",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "a component to fire a function when clicking outside of children components",
   "main": "dist/index.js",
   "scripts": {
