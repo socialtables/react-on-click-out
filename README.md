@@ -11,6 +11,8 @@ A component that allows you to fire an event when clicking outside the children 
 A function that is called when clicking outside of the children of this component
 #### `children`
 what will be rendered inside of this component
+#### `ignoredClasses`
+An array of class strings that will not trigger `onClickOut` function when clicked on
 
 
 ### Use

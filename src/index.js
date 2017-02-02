@@ -1,12 +1,22 @@
 import React, { Component, PropTypes } from "react";
 
+function parentClassIncludes(target, className) {
+	if (target) {
+		const list = Array.prototype.slice.call(target.classList || []);
+		return list.some(classItem => classItem.includes(className)) || parentClassIncludes(target.parentNode, className);
+	}
+	return false;
+}
+
+
 export default class OnClickOut extends Component {
 	constructor() {
 		super();
 		this.onClick = this.onClick.bind(this);
 	}
 	onClick(e) {
-		if (!this.node.contains(e.target)) {
+		const hasIgnoredClasses = this.props.ignoredClasses.some(name => parentClassIncludes(e.target, name));
+		if (!this.node.contains(e.target) && !hasIgnoredClasses) {
 			this.props.onClickOut();
 		}
 	}
@@ -25,5 +35,10 @@ export default class OnClickOut extends Component {
 }
 
 OnClickOut.propTypes = {
-	onClickOut: PropTypes.func.isRequired
+	onClickOut: PropTypes.func.isRequired,
+	ignoredClasses: PropTypes.array,
+};
+
+OnClickOut.defaultProps = {
+	ignoredClasses: []
 };
