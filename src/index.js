@@ -17,8 +17,10 @@ export default class OnClickOut extends Component {
 	}
 	onClick(e) {
 		const hasIgnoredClasses = this.props.ignoredClasses.some(name => parentClassIncludes(e.target, name));
-		if (!this.node.contains(e.target) && !hasIgnoredClasses) {
-			this.props.onClickOut();
+		if (this.node && this.node.contains) {
+			if (!this.node.contains(e.target) && !hasIgnoredClasses) {
+				this.props.onClickOut();
+			}
 		}
 	}
 
