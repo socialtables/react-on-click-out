@@ -26,10 +26,12 @@ export default class OnClickOut extends Component {
 
 	componentDidMount() {
 		document.addEventListener("click", this.onClick);
+		document.addEventListener("touchstart", this.onClick);
 	}
 
 	componentWillUnmount() {
 		document.removeEventListener("click", this.onClick);
+		document.removeEventListener("touchstart", this.onClick);
 	}
 
 	render() {
