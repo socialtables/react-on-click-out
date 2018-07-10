@@ -1,5 +1,5 @@
 {
-  "name": "@socialtables/react-on-click-out",
+  "name": "react-on-click-out",
   "version": "2.0.2",
   "description": "a component to fire a function when clicking outside of children components",
   "main": "dist/index.js",
