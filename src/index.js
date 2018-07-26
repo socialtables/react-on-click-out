@@ -9,6 +9,15 @@ function parentClassIncludes(target, className) {
 	return false;
 }
 
+function isTouchDevice() {
+	try {
+		document.createEvent('TouchEvent');
+		return true;
+	} catch (e) {
+		return false;
+	}
+}
+
 export default class OnClickOut extends Component {
 	constructor() {
 		super();
@@ -73,12 +82,12 @@ export default class OnClickOut extends Component {
 
 	componentDidMount() {
 		document.addEventListener("click", this.onClick);
-		this.startListenToTouchEvents();
+		isTouchDevice() && this.startListenToTouchEvents();
 	}
 	
 	componentWillUnmount() {
 		document.removeEventListener("click", this.onClick);
-		this.stopListenToTouchEvents();
+		isTouchDevice() && this.stopListenToTouchEvents();
 	}
 
 	render() {
