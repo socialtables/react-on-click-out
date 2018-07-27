@@ -25,7 +25,6 @@ export default class OnClickOut extends Component {
 		this.onTouchMove = this.onTouchMove.bind(this);
 		this.onTouchEnd = this.onTouchEnd.bind(this);
 		this.resetTouchInfo = this.resetTouchInfo.bind(this);
-		this.customDragDetection = this.customDragDetection.bind(this);
 		this.startListenToTouchEvents = this.startListenToTouchEvents.bind(this);
 		this.stopListenToTouchEvents = this.stopListenToTouchEvents.bind(this);
 	}
@@ -38,22 +37,23 @@ export default class OnClickOut extends Component {
 		}
 	}
 
-	customDragDetection({ touches: [touch] }) {
-		this.userDragging = this.userDragging || false;
+	onTouchMove({ touches: [touch] }) {
+		if (this.props.dragInterval) {
+			this.userDragging = this.userDragging || false;
 
-		this.startX = this.startX || touch.clientX;
-		this.startY = this.startY || touch.clientY;
+			this.startX = this.startX || touch.clientX;
+			this.startY = this.startY || touch.clientY;
 
-		if (
-			(Math.abs(touch.clientX - this.startX) > this.props.dragInterval) ||
-			(Math.abs(touch.clientY - this.startY) > this.props.dragInterval)
-		) {
+			if (
+				(Math.abs(touch.clientX - this.startX) > this.props.dragInterval) ||
+				(Math.abs(touch.clientY - this.startY) > this.props.dragInterval)
+			) {
+				this.userDragging = true;
+			}
+		}
+		else if (!this.userDragging) {
 			this.userDragging = true;
 		}
-	}
-
-	onTouchMove() {
-		this.userDragging = this.userDragging || true;
 	}
 
 	onTouchEnd(e) {
@@ -79,21 +79,13 @@ export default class OnClickOut extends Component {
 	}
 
 	startListenToTouchEvents() {
-		if (this.props.dragInterval) {
-			document.addEventListener("touchmove", this.customDragDetection)
-		} else {
-			document.addEventListener("touchmove", this.onTouchMove);
-		}
+		document.addEventListener("touchmove", this.onTouchMove);
 		document.addEventListener("touchend", this.onTouchEnd);
 		document.addEventListener("touchcancel", this.resetTouchInfo);
 	}
 
 	stopListenToTouchEvents() {
-		if (this.props.dragInterval) {
-			document.removeEventListener("touchmove", this.customDragDetection)
-		} else {
-			document.removeEventListener("touchmove", this.onTouchMove);
-		}
+		document.removeEventListener("touchmove", this.onTouchMove);
 		document.removeEventListener("touchend", this.onTouchEnd);
 		document.removeEventListener("touchcancel", this.resetTouchInfo);
 	}
